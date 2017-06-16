@@ -93,6 +93,15 @@ wilcox.test
 methods(wilcox.test)
 exp
 
+#user define functions
+new_function <- function(a){
+  for (i in 1:a){
+    b<-i^2
+    print(b)
+  }
+}
+new_function(6)
+
 
 
 
