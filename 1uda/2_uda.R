@@ -25,7 +25,7 @@ qplot(x = dob_day, data = pf) +
 
 #create histogram
 qplot(x = friend_count, data = pf)
-#friend count < 1000 removed outlier
+#friend count > 1000 removed outlier
 qplot(x = friend_count, data = pf, xlim = c(0,1000))
 #other way to do same thing
 qplot(x = friend_count, data = pf)+
@@ -161,6 +161,70 @@ qplot(x = www_likes, data = subset(pf, !is.na(gender)),
 
 #likes on the web solution
 by(www_likes, gender, sum)
+
+
+#Histogram
+qplot(x = friend_count, data = subset(pf, !is.na(gender)),
+      binwidth = 25)+
+  scale_x_continuous(limits = c(0,1000), breaks = seq(0,100,50))+
+  facet_wrap(~gender)
+
+#BoxPlot
+qplot(x = gender, y = friend_count,
+      data = subset(pf, !is.na(gender)),
+      geom = "boxplot", ylim = c(0,1000))
+
+qplot(x = gender, y = friend_count,
+      data = subset(pf, !is.na(gender)),
+      geom = "boxplot")+
+  scale_y_continuous(limits = c(0,1000))
+
+qplot(x = gender, y = friend_count,
+      data = subset(pf, !is.na(gender)),
+      geom = "boxplot")+
+  coord_cartesian(ylim = c(0,1000))
+
+
+#Box Plots, Quartils and Friend Request
+qplot(x = gender, y = friend_count,
+      data = subset(pf, !is.na(gender)),
+      geom = "boxplot")+
+  coord_cartesian(ylim = c(0,250))
+
+by(friend_count,gender, summary)
+
+#who initiate more friend request male or female
+names(pf)
+qplot(x = gender, y = friendships_initiated,
+      data = subset(pf, !is.na(gender)),
+      geom = "boxplot")+
+  coord_cartesian(ylim = c(0,500))
+
+qplot(x =gender, y = friendships_initiated,
+      data = subset(pf, !is.na(gender)),
+      geom = "boxplot")+
+  coord_cartesian(ylim = c(0,150))
+
+by(friendships_initiated, gender, summary)
+
+
+#Getting logical (someone has uses mobile device or not)
+summary(mobile_likes)
+summary(mobile_likes>0)
+
+#introduce new variable mobile_check_in
+mobile_check_in <- NA
+pf$mobile_check_in <- ifelse(mobile_likes>0,1,0)
+pf$mobile_check_in <- factor(pf$mobile_check_in)
+summary(pf$mobile_check_in)
+
+#what percent of checking using mobile device
+sum(pf$mobile_check_in==1)/length(pf$mobile_check_in)
+
+
+
+
+
 
 
 
